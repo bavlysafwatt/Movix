@@ -17,12 +17,15 @@ class MovieDetailsScreen extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            SizedBox(
-              height: size.height * 0.45,
-              width: double.infinity,
-              child: CachedImage(
-                imageUrl:
-                    "https://image.tmdb.org/t/p/w500/${movieModel.backdropPath}",
+            Hero(
+              tag: movieModel.id,
+              child: SizedBox(
+                height: size.height * 0.45,
+                width: double.infinity,
+                child: CachedImage(
+                  imageUrl:
+                      "https://image.tmdb.org/t/p/w500/${movieModel.backdropPath}",
+                ),
               ),
             ),
             SingleChildScrollView(
