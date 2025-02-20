@@ -12,6 +12,11 @@ class NavigationService {
         ?.push(MaterialPageRoute(builder: (context) => widget));
   }
 
+  navigateReplace(Widget widget) {
+    return navigatorKey.currentState
+        ?.pushReplacement(MaterialPageRoute(builder: (context) => widget));
+  }
+
   pop(Widget widget) {
     return navigatorKey.currentState?.pop();
   }
