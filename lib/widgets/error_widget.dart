@@ -22,6 +22,7 @@ class MyErrorWidget extends StatelessWidget {
           SizedBox(height: 20),
           Text(
             "Error: $errorText",
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 16,
             ),
