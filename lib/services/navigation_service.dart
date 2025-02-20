@@ -12,6 +12,11 @@ class NavigationService {
         ?.push(MaterialPageRoute(builder: (context) => widget));
   }
 
+  navigateReplace(Widget widget) {
+    return navigatorKey.currentState
+        ?.pushReplacement(MaterialPageRoute(builder: (context) => widget));
+  }
+
   pop(Widget widget) {
     return navigatorKey.currentState?.pop();
   }
@@ -21,13 +26,13 @@ class NavigationService {
         context: navigatorKey.currentContext!, builder: (context) => widget);
   }
 
-  void showSnackbar() {
+  void showSnackbar(String message) {
     final context = navigatorKey.currentContext!;
     ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          "Hello, World from Movix App",
+          message,
           style: TextStyle(
             color: Colors.white,
           ),
