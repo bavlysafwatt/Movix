@@ -65,7 +65,8 @@ class MovieDetailsScreen extends StatelessWidget {
                                       size: 20,
                                     ),
                                     SizedBox(width: 5),
-                                    Text("${movieModel.voteAverage}/10"),
+                                    Text(
+                                        "${movieModel.voteAverage.toStringAsFixed(1)}/10"),
                                     Spacer(),
                                     Text(
                                       movieModel.releaseDate,
