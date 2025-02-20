@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:movix/models/movie_model.dart';
+import 'package:movix/util/genre_mapper.dart';
 
 class GenresListWidget extends StatelessWidget {
-  const GenresListWidget({super.key});
+  const GenresListWidget({super.key, required this.movieModel});
+
+  final MovieModel movieModel;
 
   @override
   Widget build(BuildContext context) {
-    const List<String> genres = ["Horror", "Action", "Thriller", "Drama"];
+    List<String> genres = GenreMapper.movieGenresNames(movieModel.genreIds);
 
     return Wrap(
       children: List.generate(
@@ -30,7 +34,7 @@ class GenresListWidget extends StatelessWidget {
           child: Text(
             name,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 15,
               color: Theme.of(context).colorScheme.onSurface,
             ),
           ),

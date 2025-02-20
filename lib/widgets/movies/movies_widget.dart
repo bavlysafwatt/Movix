@@ -70,7 +70,7 @@ class MoviesWidget extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 10),
-                        GenresListWidget(),
+                        GenresListWidget(movieModel: movieModel),
                         Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

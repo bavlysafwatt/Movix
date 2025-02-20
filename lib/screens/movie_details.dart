@@ -74,7 +74,7 @@ class MovieDetailsScreen extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 10),
-                                const GenresListWidget(),
+                                GenresListWidget(movieModel: movieModel),
                                 const SizedBox(height: 15),
                                 Text(
                                   movieModel.overview,

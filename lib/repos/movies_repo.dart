@@ -4,6 +4,7 @@ import 'package:movix/services/api_service.dart';
 
 class MoviesRepo {
   final ApiService apiService;
+  List<MoviesGenre> cachedGenres = [];
 
   MoviesRepo({required this.apiService});
 
@@ -12,6 +13,6 @@ class MoviesRepo {
   }
 
   Future<List<MoviesGenre>> fetchMovieGenres() async {
-    return apiService.fetchMovieGenres();
+    return cachedGenres = await apiService.fetchMovieGenres();
   }
 }
