@@ -21,13 +21,13 @@ class NavigationService {
         context: navigatorKey.currentContext!, builder: (context) => widget);
   }
 
-  void showSnackbar() {
+  void showSnackbar(String message) {
     final context = navigatorKey.currentContext!;
     ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          "Hello, World from Movix App",
+          message,
           style: TextStyle(
             color: Colors.white,
           ),
