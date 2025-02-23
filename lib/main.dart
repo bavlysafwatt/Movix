@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:movix/providers/movies_provider.dart';
 import 'package:movix/providers/theme_provider.dart';
 import 'package:movix/screens/movies_screen.dart';
 import 'package:movix/services/init_getit.dart';
@@ -27,6 +28,9 @@ class Movix extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<ThemeProvider>(
           create: (context) => ThemeProvider(),
+        ),
+        ChangeNotifierProvider<MoviesProvider>(
+          create: (context) => MoviesProvider(),
         ),
       ],
       child: Consumer(builder: (context, ThemeProvider themeProvider, child) {
