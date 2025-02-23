@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:movix/providers/favorite_provider.dart';
 import 'package:movix/providers/movies_provider.dart';
 import 'package:movix/screens/movies_screen.dart';
 import 'package:movix/services/init_getit.dart';
@@ -14,6 +15,9 @@ class SplashScreen extends StatelessWidget {
     await Future.microtask(() async {
       if (!context.mounted) return;
       await Provider.of<MoviesProvider>(context, listen: false).getMovies();
+      if (!context.mounted) return;
+      await Provider.of<FavoriteProvider>(context, listen: false)
+          .loadFavorites();
     });
   }
 
