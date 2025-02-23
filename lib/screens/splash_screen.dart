@@ -10,35 +10,55 @@ import 'package:provider/provider.dart';
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
-  Future<void> loadInitialData(BuildContext context) async {
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => Provider.of<MoviesProvider>(context, listen: false).getMovies(),
-    );
+  Future<void> _loadInitialData(BuildContext context) async {
+    await Future.microtask(() async {
+      if (!context.mounted) return;
+      await Provider.of<MoviesProvider>(context, listen: false).getMovies();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final moviesProvider = Provider.of<MoviesProvider>(context, listen: false);
     return Scaffold(
       body: FutureBuilder(
-        future: loadInitialData(context),
+        future: _loadInitialData(context),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return LoadingAnimationWidget.staggeredDotsWave(
-              color: Colors.grey,
-              size: 30,
+            return Center(
+              child: LoadingAnimationWidget.staggeredDotsWave(
+                color: Colors.grey,
+                size: 30,
+              ),
             );
           } else if (snapshot.hasError) {
-            return MyErrorWidget(
-              errorText: snapshot.error.toString(),
-              retryFunction: () {},
-            );
+            if (moviesProvider.genresList.isNotEmpty) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                getIt<NavigationService>()
+                    .navigateReplace(const MoviesScreen());
+              });
+            }
+            return Provider.of<MoviesProvider>(context).isLoading
+                ? Center(
+                    child: LoadingAnimationWidget.staggeredDotsWave(
+                      color: Colors.grey,
+                      size: 30,
+                    ),
+                  )
+                : MyErrorWidget(
+                    errorText: snapshot.error.toString(),
+                    retryFunction: () async {
+                      await _loadInitialData(context);
+                    },
+                  );
           } else {
             WidgetsBinding.instance.addPostFrameCallback(
-              (_) => getIt
-                  .get<NavigationService>()
-                  .navigateReplace(MoviesScreen()),
+              (_) {
+                getIt<NavigationService>()
+                    .navigateReplace(const MoviesScreen());
+              },
             );
-            return SizedBox();
+            return const SizedBox.shrink();
           }
         },
       ),

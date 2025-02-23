@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:movix/constants/app_icons.dart';
 import 'package:movix/constants/app_theme_data.dart';
+import 'package:movix/providers/movies_provider.dart';
 import 'package:movix/providers/theme_provider.dart';
 import 'package:movix/screens/favorites_screen.dart';
 import 'package:movix/services/init_getit.dart';
@@ -37,11 +41,34 @@ class MoviesScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: 10,
-        physics: BouncingScrollPhysics(),
-        itemBuilder: (context, index) => MoviesWidget(),
-      ),
+      body: Consumer(builder: (context, MoviesProvider moviesProvider, child) {
+        if (moviesProvider.isLoading && moviesProvider.moviesList.isEmpty) {
+          return Center(
+            child: LoadingAnimationWidget.staggeredDotsWave(
+              color: Colors.grey,
+              size: 30,
+            ),
+          );
+        } else if (moviesProvider.fetchMoviesError.isNotEmpty) {
+          return const Text("Error fetching movies: $e");
+        }
+        return NotificationListener<ScrollNotification>(
+          onNotification: (notification) {
+            if (notification.metrics.pixels ==
+                    notification.metrics.maxScrollExtent &&
+                !moviesProvider.isLoading) {
+              moviesProvider.getMovies();
+              return true;
+            }
+            return false;
+          },
+          child: ListView.builder(
+            itemCount: moviesProvider.moviesList.length,
+            physics: BouncingScrollPhysics(),
+            itemBuilder: (context, index) => MoviesWidget(),
+          ),
+        );
+      }),
     );
   }
 }
