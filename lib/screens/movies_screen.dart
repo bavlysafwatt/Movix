@@ -63,9 +63,24 @@ class MoviesScreen extends StatelessWidget {
             return false;
           },
           child: ListView.builder(
-            itemCount: moviesProvider.moviesList.length,
+            itemCount: moviesProvider.moviesList.length +
+                (moviesProvider.isLoading ? 1 : 0),
             physics: BouncingScrollPhysics(),
-            itemBuilder: (context, index) => MoviesWidget(),
+            itemBuilder: (context, index) {
+              if (index < moviesProvider.moviesList.length) {
+                return MoviesWidget();
+              } else {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Center(
+                    child: LoadingAnimationWidget.staggeredDotsWave(
+                      color: Colors.grey,
+                      size: 30,
+                    ),
+                  ),
+                );
+              }
+            },
           ),
         );
       }),
