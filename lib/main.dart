@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:movix/constants/app_theme_data.dart';
+import 'package:movix/providers/theme_provider.dart';
 import 'package:movix/screens/movies_screen.dart';
 import 'package:movix/services/init_getit.dart';
 import 'package:movix/services/navigation_service.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   setupLocator();
@@ -22,11 +23,20 @@ class Movix extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: getIt<NavigationService>().navigatorKey,
-      debugShowCheckedModeBanner: false,
-      theme: AppThemeData.lightTheme,
-      home: MoviesScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ThemeProvider>(
+          create: (context) => ThemeProvider(),
+        ),
+      ],
+      child: Consumer(builder: (context, ThemeProvider themeProvider, child) {
+        return MaterialApp(
+          navigatorKey: getIt<NavigationService>().navigatorKey,
+          debugShowCheckedModeBanner: false,
+          theme: Provider.of<ThemeProvider>(context).themeMode,
+          home: MoviesScreen(),
+        );
+      }),
     );
   }
 }
