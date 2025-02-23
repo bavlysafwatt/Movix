@@ -68,7 +68,8 @@ class MoviesScreen extends StatelessWidget {
             physics: BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               if (index < moviesProvider.moviesList.length) {
-                return MoviesWidget();
+                return MoviesWidget(
+                    movieModel: moviesProvider.moviesList[index]);
               } else {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),

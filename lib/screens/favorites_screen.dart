@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:movix/constants/app_icons.dart';
-import 'package:movix/widgets/movies/movies_widget.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
@@ -28,7 +27,7 @@ class FavoritesScreen extends StatelessWidget {
       body: ListView.builder(
         itemCount: 2,
         physics: BouncingScrollPhysics(),
-        itemBuilder: (context, index) => MoviesWidget(),
+        itemBuilder: (context, index) => SizedBox(),
       ),
     );
   }

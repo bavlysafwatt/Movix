@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movix/constants/app_icons.dart';
+import 'package:movix/models/movie_model.dart';
 import 'package:movix/screens/movie_details.dart';
 import 'package:movix/services/init_getit.dart';
 import 'package:movix/services/navigation_service.dart';
@@ -9,7 +10,10 @@ import 'package:movix/widgets/movies/genres_list_widget.dart';
 import '../cached_image.dart';
 
 class MoviesWidget extends StatelessWidget {
-  const MoviesWidget({super.key});
+  const MoviesWidget({super.key, required this.movieModel});
+
+  final MovieModel movieModel;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,7 +24,8 @@ class MoviesWidget extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(12.0),
           onTap: () {
-            getIt<NavigationService>().navigate(MovieDetailsScreen());
+            getIt<NavigationService>()
+                .navigate(MovieDetailsScreen(movieModel: movieModel));
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -31,7 +36,13 @@ class MoviesWidget extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12.0),
-                    child: const CachedImage(),
+                    child: Hero(
+                      tag: movieModel.id,
+                      child: CachedImage(
+                        imageUrl:
+                            "https://image.tmdb.org/t/p/w500/${movieModel.backdropPath}",
+                      ),
+                    ),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
@@ -39,15 +50,15 @@ class MoviesWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 5),
-                        const Text(
-                          "Fight Club",
+                        Text(
+                          movieModel.originalTitle,
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(height: 10),
-                        const Row(
+                        Row(
                           children: [
                             Icon(
                               AppIcons.star,
@@ -55,11 +66,12 @@ class MoviesWidget extends StatelessWidget {
                               size: 20,
                             ),
                             SizedBox(width: 5),
-                            Text("8/10"),
+                            Text(
+                                "${movieModel.voteAverage.toStringAsFixed(1)}/10"),
                           ],
                         ),
                         const SizedBox(height: 10),
-                        GenresListWidget(),
+                        GenresListWidget(movieModel: movieModel),
                         Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,8 +82,8 @@ class MoviesWidget extends StatelessWidget {
                               color: Theme.of(context).colorScheme.secondary,
                             ),
                             const SizedBox(width: 5),
-                            const Text(
-                              "Release Date",
+                            Text(
+                              movieModel.releaseDate,
                               style: TextStyle(color: Colors.grey),
                             ),
                             const Spacer(),
