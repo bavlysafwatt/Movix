@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:movix/providers/movies_provider.dart';
 import 'package:movix/providers/theme_provider.dart';
-import 'package:movix/screens/movies_screen.dart';
+import 'package:movix/screens/splash_screen.dart';
 import 'package:movix/services/init_getit.dart';
 import 'package:movix/services/navigation_service.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +38,7 @@ class Movix extends StatelessWidget {
           navigatorKey: getIt<NavigationService>().navigatorKey,
           debugShowCheckedModeBanner: false,
           theme: Provider.of<ThemeProvider>(context).themeMode,
-          home: MoviesScreen(),
+          home: SplashScreen(),
         );
       }),
     );
